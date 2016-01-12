@@ -342,10 +342,12 @@ class EmpoweringContract(EmpoweringDataObject):
                     'buildingConstructionYear': None,
                     'dwellingArea': None,
                     'buildingType': None,
+                    'propertyType': None,
                     'dwellingPositionInBuilding': None,
                     'dwellingOrientation': None,
                     'buildingWindowsType': None,
                     'buildingWindowsFrame': None,
+                    'buildingCoolingSource': None,
                     'buildingHeatingSource': None,
                     'buildingHeatingSourceDhw': None,
                     'buildingSolarSystem': None
