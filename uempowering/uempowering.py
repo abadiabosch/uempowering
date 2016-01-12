@@ -282,6 +282,19 @@ class Empowering(object):
         req = Empowering_GET(url)
         return self.get_results_by_filter(url, search_pattern)
 
+    def get_contract_stats(self, contract_id):
+        return self.get_results_by_contract('OT900', contract_id)
+
+    def get_contract_errors(self, contract_id, start_date=None, end_date=None):
+        contract = self.get_contract(contract_id)
+        url = EmpoweringOTResults.path('OT910')
+
+        errors = []
+        for device in contract['devices']:
+            search_pattern = '?where="deviceId"=="%s"' % device['deviceId']
+            errors.append(self.get_results_by_filter(url, search_pattern))
+        return errors
+
 
 class EmpoweringDataObject(object):
     def update(self,new_values):

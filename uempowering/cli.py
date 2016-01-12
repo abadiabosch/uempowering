@@ -37,8 +37,22 @@ def get_measurements(ctx, ids):
 
 @uempowering.command()
 @click.pass_context
-def get_push_stats(ctx):
-    click.echo(json.dumps(ctx.obj['emp'].get_all_results('OT900'), indent=4))
+@click.argument('ids', nargs=-1)
+def get_contract_stats(ctx, ids):
+    click.echo("min_measures Minimum value of the month")
+    click.echo("max_measures Maximun value of the month")
+    click.echo("count_measures Number of values")
+    click.echo("power Contracted power")
+    click.echo("sum_measures Sum of monthly measures")
+    for id in list(ids):
+        click.echo(json.dumps(ctx.obj['emp'].get_contract_stats(id), indent=4))
+
+@uempowering.command()
+@click.pass_context
+@click.argument('ids', nargs=-1)
+def get_contract_errors(ctx, ids):
+    for id in list(ids):
+        click.echo(json.dumps(ctx.obj['emp'].get_contract_errors(id), indent=4))
 
 
 if __name__ == '__main__':
