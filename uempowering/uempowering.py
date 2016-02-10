@@ -295,6 +295,17 @@ class Empowering(object):
             errors.append(self.get_results_by_filter(url, search_pattern))
         return errors
 
+    def get_ot_status(self, ot, start, end):
+        url = 'module_task_reports/'
+
+        if not EmpoweringOTResults.ot_is_supported(ot):
+            raise NotImplementedError
+
+        search_pattern = '?where={"module":"%s"}' % ot.lower()
+        url = requests.compat.urljoin(url, search_pattern)
+
+        req = Empowering_GET(url)
+        return self.engine.req(req)
 
 class EmpoweringDataObject(object):
     def update(self,new_values):
