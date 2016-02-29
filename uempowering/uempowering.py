@@ -4,6 +4,9 @@ import json
 import os
 from urlparse import urlparse
 
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
 class EmpoweringEngine(object):
     methods = {
         'GET': requests.get,
