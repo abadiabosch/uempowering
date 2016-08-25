@@ -33,7 +33,17 @@ def get_contract(ctx, ids):
 @click.argument('ids', nargs=-1)
 def get_measurements(ctx, ids):
    for id in list(ids):
-       click.echo(json.dumps(ctx.obj['emp'].get_dh_measurements_by_contract(id), indent=4)) 
+       click.echo(json.dumps(ctx.obj['emp'].get_dh_measurements_by_contract(id), indent=4))
+
+@uempowering.command()
+@click.pass_context
+@click.argument('ot', nargs=1)
+@click.argument('ids', nargs=-1)
+@click.option('--start', default=None)
+@click.option('--end', default=None)
+def get_contract_results(ctx, ot, ids, start, end):
+   for id in list(ids):
+       click.echo(json.dumps(ctx.obj['emp'].get_results_by_contract(ot, id, start, end), indent=4))
 
 @uempowering.command()
 @click.pass_context

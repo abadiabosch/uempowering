@@ -199,24 +199,26 @@ class Empowering(object):
         req = Empowering_POST(url,data)
         return self.engine.req(req)
 
-    def get_measurements_by_device(self, device_id=None):
+    def get_measurements_by_device(self, device_id=None, max_results=200):
         url = 'amon_measures_measurements/'
 
         if not device_id:
             raise Exception
 
         search_pattern = '?where="deviceId"=="{device_id}"'.format(**locals())
+        search_pattern += '&max_results={max_results}'.format(**locals())
         url = requests.compat.urljoin(url, search_pattern)
         req = Empowering_GET(url)
         return self.engine.req(req)
 
-    def get_dh_measurements_by_device(self, device_id=None):
+    def get_dh_measurements_by_device(self, device_id=None, max_results=200):
         url = 'residential_timeofuse_amon_measures_measurements/'
 
         if not device_id:
             raise Exception
 
         search_pattern = '?where="deviceId"=="{device_id}"'.format(**locals())
+        search_pattern += '&max_results={max_results}'.format(**locals())
         url = requests.compat.urljoin(url, search_pattern)
         req = Empowering_GET(url)
         return self.engine.req(req)
@@ -258,7 +260,8 @@ class Empowering(object):
         req = Empowering_POST(url, data)
         return self.engine.req(req)
 
-    def get_results_by_filter(self, url, search_pattern):
+    def get_results_by_filter(self, url, search_pattern, max_results=200):
+        search_pattern += '&max_results={max_results}'.format(**locals())
         url = requests.compat.urljoin(url, search_pattern)
         req = Empowering_GET(url)
         return self.engine.req(req)
