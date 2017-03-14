@@ -24,9 +24,10 @@ def uempowering(ctx):
 @click.pass_context
 @click.argument('ids', nargs=-1)
 def get_contract(ctx, ids):
-   for id in list(ids):
-       click.echo(json.dumps(ctx.obj['emp'].get_contract(id), indent=4))
-
+    if not ids: 
+        click.echo(json.dumps(ctx.obj['emp'].get_contract([]), indent=4))
+    for id in list(ids):
+        click.echo(json.dumps(ctx.obj['emp'].get_contract(id), indent=4))
 
 @uempowering.command()
 @click.pass_context
@@ -79,6 +80,32 @@ def get_contract_errors(ctx, ids):
 def get_ot_status(ctx, ot, start, end):
     click.echo(json.dumps(ctx.obj['emp'].get_ot_status(ot, start, end), indent=4))
 
+@uempowering.command()
+@click.pass_context
+@click.argument('ids', nargs=-1)
+def get_measurements(ctx, ids):
+   for id in list(ids):
+       click.echo(json.dumps(ctx.obj['emp'].get_dh_measurements_by_contract(id), indent=4))
+
+@uempowering.command()
+@click.pass_context
+@click.argument('ids', nargs=-1)
+def get_tariffs(ctx, ids):
+    if not ids:
+       click.echo(json.dumps(ctx.obj['emp'].get_tariffs([]), indent=4))
+    for id in list(ids):
+    
+        print id
+        click.echo(json.dumps(ctx.obj['emp'].get_tariffs(id), indent=4))
+
+@uempowering.command()
+@click.pass_context
+@click.option('--item', type=(unicode, unicode), multiple=True)
+def get_time_slots(ctx, item):
+    if not item:
+       click.echo(json.dumps(ctx.obj['emp'].get_time_slots([]), indent=4))
+    for tariff_id,name in list(item):
+        click.echo(json.dumps(ctx.obj['emp'].get_time_slots(tariff_id=tariff_id,name=name), indent=4))
 
 if __name__ == '__main__':
     uempowering(obj={'config': config})

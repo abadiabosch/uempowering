@@ -313,6 +313,76 @@ class Empowering(object):
         req = Empowering_GET(url)
         return self.engine.req(req)
 
+    def add_tariff(self, data):
+        url = 'tariffs/'
+        req = Empowering_POST(url, data)
+        return self.engine.req(req)
+
+    def update_tariffs(self, tariff_id, etag, data):
+        url = 'tariffs/'
+        
+        if not contract_id:
+            raise Exception
+
+        url = requests.compat.urljoin(url, tariff_id)
+        req = Empowering_PATCH(url, etag, data)
+        return self.engine.req(req)
+
+    def delete_tariff(self, tariff_id, etag):
+        url = 'tariffs/'
+
+        if not tariff_id:
+            raise Exception
+
+        url = requests.compat.urljoin(url, contract_id)
+        req = Empowering_DELETE(url, etag)
+        return self.engine.req(req)
+
+    def get_tariffs(self, tariff_id=None, page=1, max_results=200):
+        url = 'tariffs/'
+
+        if tariff_id:
+            url = requests.compat.urljoin(url, tariff_id)
+        else:
+            search_pattern = '?page={page}&max_results={max_results}'.format(**locals())
+            url = requests.compat.urljoin(url, search_pattern)
+
+        req = Empowering_GET(url)
+        return self.engine.req(req)
+
+    def add_time_slot(self, data):
+        url = 'time_slots/'
+        req = Empowering_POST(url, data)
+        return self.engine.req(req)
+
+    def update_time_slot(self, time_slot_id, etag, data):
+        url = 'time_slots/'
+        
+        if not time_slot_id:
+            raise Exception
+
+        url = requests.compat.urljoin(url, time_slot_id)
+        req = Empowering_PATCH(url, etag, data)
+        return self.engine.req(req)
+
+    def delete_time_slot(self, time_slot_id, etag):
+        url = 'time_slots/'
+
+        if not time_slot_id:
+            raise Exception
+
+    def get_time_slots(self, tariff_id=None, name=None, page=1, max_results=200):
+        url = 'time_slots/'
+
+        if tariff_id and name:
+            search_pattern = \
+                '?where="tariffId"=="{tariff_id}"&"timeSlotName"=="{name}"'.format(**locals())
+        else:
+            search_pattern = '?page={page}&max_results={max_results}'.format(**locals())
+        url = requests.compat.urljoin(url, search_pattern)
+        req = Empowering_GET(url)
+        return self.engine.req(req)
+
 class EmpoweringDataObject(object):
     def update(self,new_values):
         def update_(d, u):
@@ -349,7 +419,27 @@ class EmpoweringContract(EmpoweringDataObject):
             'dateEnd': None,
             'contractId': None,
             'tariffId': None,
+            'tariff_': { 
+                'tariffId': None,
+                'dateStart': None,
+                'dateEnd': None,
+            },
+            'tariffHistory': [{ 
+                'tariffId': None,
+                'dateStart': None,
+                'dateEnd': None,
+            }],
             'power': None,
+            'power_': { 
+                'power': None,
+                'dateStart': None,
+                'dateEnd': None,
+            },
+            'powerHistory': [{ 
+                'power': None,
+                'dateStart': None,
+                'dateEnd': None,
+            }],
             'version': None,
             'activityCode': None,
             'climaticZone': None,
