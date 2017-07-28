@@ -156,13 +156,15 @@ class Empowering(object):
     def debug(self, x):
         self.engine.debug = x
 
-    def get_contract(self, contract_id=None, page=1, max_results=200):
+    def get_contract(self, contract_id=None, match=None, page=1, max_results=200):
         url = 'contracts/'
 
         if contract_id:
             url = requests.compat.urljoin(url, contract_id)
         else:
             search_pattern = '?page={page}&max_results={max_results}'.format(**locals())
+            if match:
+                search_pattern += '&where=' + match
             url = requests.compat.urljoin(url, search_pattern)
 
         req = Empowering_GET(url)
@@ -382,6 +384,20 @@ class Empowering(object):
         url = requests.compat.urljoin(url, search_pattern)
         req = Empowering_GET(url)
         return self.engine.req(req)
+
+    def delete_contract(self, contract_id):
+        url = 'contracts/'
+
+        if not contract_id:
+            return
+
+        url = requests.compat.urljoin(url, contract_id)
+        req = Empowering_GET(url)
+        rst = self.engine.req(req)
+        etag = rst.get('_etag', None)    
+        if etag:
+            req = Empowering_DELETE(url, etag)
+            return self.engine.req(req)
 
 class EmpoweringDataObject(object):
     def update(self,new_values):

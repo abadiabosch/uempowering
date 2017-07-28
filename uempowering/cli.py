@@ -23,11 +23,12 @@ def uempowering(ctx):
 @uempowering.command()
 @click.pass_context
 @click.argument('ids', nargs=-1)
-def get_contract(ctx, ids):
+@click.option('--match', default=None)
+def get_contract(ctx, ids, match):
     if not ids: 
-        click.echo(json.dumps(ctx.obj['emp'].get_contract([]), indent=4))
+        click.echo(json.dumps(ctx.obj['emp'].get_contract([], match), indent=4))
     for id in list(ids):
-        click.echo(json.dumps(ctx.obj['emp'].get_contract(id), indent=4))
+        click.echo(json.dumps(ctx.obj['emp'].get_contract(id, match), indent=4))
 
 @uempowering.command()
 @click.pass_context
@@ -106,6 +107,13 @@ def get_time_slots(ctx, item):
        click.echo(json.dumps(ctx.obj['emp'].get_time_slots([]), indent=4))
     for tariff_id,name in list(item):
         click.echo(json.dumps(ctx.obj['emp'].get_time_slots(tariff_id=tariff_id,name=name), indent=4))
+
+@uempowering.command()
+@click.pass_context
+@click.argument('ids', nargs=-1)
+def delete_contract(ctx, ids):
+    for id in list(ids):
+        click.echo(json.dumps(ctx.obj['emp'].delete_contract(id), indent=4))
 
 if __name__ == '__main__':
     uempowering(obj={'config': config})
